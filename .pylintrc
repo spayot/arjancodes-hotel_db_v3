@@ -1,0 +1,6 @@
+[MASTER]
+docstring-min-length=10
+disable=missing-function-docstring,missing-module-docstring,missing-class-docstring,redefined-builtin
+
+[FORMAT]
+good-names=x,y,i,j,id

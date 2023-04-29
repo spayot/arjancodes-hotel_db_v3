@@ -1,0 +1,5 @@
+{
+    "python.linting.pylintArgs": [
+        "--rcfile=/Users/spayot/projects/arjancodes/hotel_db_v2/.pylintrc"
+    ]
+}

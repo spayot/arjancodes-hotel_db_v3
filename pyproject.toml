@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "Hotel Reservation API (after version)"
+version = "0.0.1"
+description = "Code for the Hotel Reservation API part of The Software Designer Mindset course."
+authors = ["ArjanCodes <hi@arjancodes.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = "^0.95.0"
+sqlalchemy = "^2.0.9"
+uvicorn = "^0.21.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
