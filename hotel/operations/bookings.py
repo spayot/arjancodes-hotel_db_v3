@@ -60,7 +60,9 @@ def is_room_available(
     room_id: int, from_date: dt.date, to_date: Optional[dt.date]
 ) -> RoomAvailabilityResult:
     if not to_date:
-        to_date = dt.datetime.strptime(from_date, "%Y-%m-%d") + dt.timedelta(days=1)
+        to_date = dt.datetime.strptime(from_date, "%Y-%m-%d").date() + dt.timedelta(
+            days=1
+        )
 
     is_available: bool = _is_room_available_during_timespan(room_id, from_date, to_date)
 
