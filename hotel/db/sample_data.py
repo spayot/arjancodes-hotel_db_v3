@@ -1,3 +1,5 @@
+import datetime as dt
+
 from hotel.db.models import DBBooking, DBCustomer, DBRoom
 
 customers = [
@@ -51,4 +53,28 @@ rooms = [
     DBRoom(number="103", size=20, price=250_00),
     DBRoom(number="104", size=20, price=250_00),
     DBRoom(number="105", size=30, price=350_00),
+]
+
+bookings = [
+    DBBooking(
+        room_id=1,
+        customer_id=1,
+        from_date=dt.date(2023, 1, 1),
+        to_date=dt.date(2023, 1, 20),
+        price=285000,
+    ),
+    DBBooking(
+        room_id=1,
+        customer_id=2,
+        from_date=dt.date(2023, 1, 25),
+        to_date=dt.date(2023, 1, 30),
+        price=75000,
+    ),
+    DBBooking(
+        room_id=2,
+        customer_id=3,
+        from_date=dt.date(2023, 1, 1),
+        to_date=dt.date(2023, 1, 10),
+        price=135000,
+    ),
 ]
