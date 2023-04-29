@@ -8,7 +8,7 @@ app = FastAPI()
 
 
 DB_FILE = "sqlite:///hotel2.db"
-create_db(DB_FILE)
+# create_db(DB_FILE)
 
 
 @app.on_event("startup")
