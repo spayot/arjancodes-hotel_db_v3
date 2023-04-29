@@ -1,3 +1,4 @@
+import datetime as dt
 from typing import Optional
 
 from fastapi import APIRouter
@@ -10,11 +11,13 @@ from hotel.operations.bookings import (
     is_room_available,
     read_all_bookings,
     read_booking,
+    search_available_rooms,
 )
 from hotel.operations.models import (
     BookingCreateData,
     BookingResult,
     RoomAvailabilityResult,
+    RoomResult,
 )
 
 router = APIRouter()
@@ -47,6 +50,6 @@ def api_delete_booking(booking_id: int) -> BookingResult:
 
 @router.get("/room_availability/v1")
 def api_is_room_available(
-    room_id: int, from_date: str, to_date: Optional[str] = None
+    room_id: int, from_date: dt.date, to_date: Optional[dt.date] = None
 ) -> RoomAvailabilityResult:
     return is_room_available(room_id, from_date, to_date)

@@ -6,6 +6,7 @@ The case study by introducing a challenge to improve on the API as setup by Arja
 * add a few fields to the customer database (address + consent to receive marketing email)
 * create a new `/room_availability/v1` endpoint to query whether a room is available on a given time span.
 * add room availability check before recording a booking (cf. [`_validate_room_availability`](hotel/operations/bookings.py))
+* create a new `/available_rooms/v1` endpoint to retrieve all rooms available during a given time period.
 
 ## TO-DO
 * create an endpoint to retrieve all available rooms for a given time span.
@@ -39,7 +40,11 @@ curl -X POST \
 http://localhost:8000/booking
 ```
 
-### Room Availability
+### Retrieve all rooms available during a certain timespan
+```bash
+http://localhost:8000/available_rooms/v1?from_date=2023-01-15&to_date=2023-01-18
+```
+### Availability of a specific room
 ```
 http://localhost:8000/room_availability/v1?room_id=1&from_date=2023-01-20&to_date=2023-01-26
 ```
