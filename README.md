@@ -5,6 +5,10 @@ The case study by introducing a challenge to improve on the API as setup by Arja
 * migrate `operations/customers` and `operations/rooms` to leverage the same `DBInterface` introduced to reduce coupling for `bookings`.
 * add a few fields to the customer database (address + consent to receive marketing email)
 * create a new `/room_availability/v1` endpoint to query whether a room is available on a given time span.
+* add room availability check before recording a booking (cf. [`_validate_room_availability`](hotel/operations/bookings.py))
+
+## TO-DO
+* create an endpoint to retrieve all available rooms for a given time span.
 
 ## Installing and running the hotel reservation API example
 

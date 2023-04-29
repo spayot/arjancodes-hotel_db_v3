@@ -58,7 +58,7 @@ class RoomResult(BaseModel):
 
 
 class RoomAvailabilityResult(BaseModel):
-    id: int
+    room_id: int
     from_date: dt.date
     to_date: dt.date
     is_available: bool

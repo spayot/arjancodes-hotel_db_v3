@@ -34,7 +34,7 @@ def create_booking(
     if days <= 0:
         raise ValueError("Invalid dates")
 
-    _validate_room_availability(data.room_id, data.from_date, days)
+    _validate_room_availability(data.room_id, data.from_date, data.to_date)
 
     booking_dict = data.dict()
     booking_dict["price"] = room["price"] * days
@@ -43,12 +43,12 @@ def create_booking(
     return BookingResult(**booking)
 
 
-def _validate_room_availability(room_id: int, from_date: dt.date, days: int) -> None:
-    for delta in range(days):
-        date_checked = from_date + dt.timedelta(days=delta)
-        availability_on_that_day = check_room_availability(room_id, date_checked)
-        if not availability_on_that_day.is_available:
-            raise ValueError(f"Room not available on {date_checked}")
+def _validate_room_availability(
+    room_id: int, from_date: dt.date, to_date: dt.date
+) -> None:
+    room_availability_result = is_room_available(room_id, from_date, to_date)
+    if not room_availability_result.is_available:
+        raise ValueError(f"Room not available")
 
 
 def delete_booking(booking_id: int, booking_interface: DataInterface) -> BookingResult:
@@ -65,7 +65,7 @@ def is_room_available(
     is_available: bool = _is_room_available_during_timespan(room_id, from_date, to_date)
 
     return RoomAvailabilityResult(
-        id=room_id,
+        room_id=room_id,
         from_date=from_date,
         to_date=to_date,
         is_available=is_available,
@@ -87,10 +87,7 @@ def _retrieve_room_bookings_during_timespan(
     bookings: list[DBBooking] = (
         session.query(DBBooking)
         .filter(DBBooking.room_id == room_id)
-        .filter(
-            ((DBBooking.from_date >= from_date) & (DBBooking.from_date < to_date))
-            | ((DBBooking.to_date > from_date) & (DBBooking.to_date <= to_date))
-        )
+        .filter((DBBooking.from_date < to_date) & (DBBooking.to_date > from_date))
         .all()
     )
     session.close()

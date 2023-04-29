@@ -7,7 +7,7 @@ from hotel.routers import bookings, customers, rooms
 app = FastAPI()
 
 
-DB_FILE = "sqlite:///hotel2.db"
+DB_FILE = "sqlite:///hotel.db"
 # create_db(DB_FILE)
 
 
