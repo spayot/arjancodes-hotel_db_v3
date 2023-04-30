@@ -1,4 +1,4 @@
-# ArjanCodes - Software Designer Mindset - Extension - Hotel Booking API
+# ArjanCodes - Software Designer Mindset - Extension - Hotel Booking API Challenge
 ## Description
 This repo builds on top of the case study presented in [ArjanCodes' Software Designer Mindset course](https://www.arjancodes.com/products/the-software-designer-mindset-complete-extension/categories/2149106521). 
 The case study ends by introducing a challenge to improve on the API design setup by Arjan. The following improvements have been performed:
@@ -12,7 +12,7 @@ The case study ends by introducing a challenge to improve on the API design setu
 ## Interesting Implementation Details
 ### checking which rooms are available for a given timespan
 - we choose to answer the question "which room is available?" by reframing it as **"which rooms don't have any booking overlapping wiht the time window of interest?"**. in more details:
-- we retrieve the list of rooms by calling `room_interface.read_all()` (this could later on be extended to support additional conditions, like amenity requirements, filtering on hotel, size, price, etc...)
+- we retrieve the list of rooms by calling `room_interface.read_all()` (this could later on be extended to support additional filtering conditions, like amenity requirements, filtering on hotel, size, price, etc...)
 - for each of those rooms, we determine whether at least one booking overlaps.
 - the condition to identify overlapping bookings is: 
     - same `room_id` 
@@ -37,6 +37,7 @@ data_interface.filter(
 * would it be preferable to add a new database table focused on room availability? what schema would be appropriate?
 * is there a better way to extend the `DataInterface` and handle filtering?
 * What is best practice for the API response to a binary question like: *is room 101 available between those dates?*
+* what is the best way for the API to handle exceptions in a way that return something more informative than just `Internal Server Error`? (e.g. when trying to book a room that is not available)
 
 ## Installing and running the hotel reservation API example
 
