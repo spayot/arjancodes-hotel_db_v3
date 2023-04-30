@@ -48,3 +48,9 @@ class DBInterface:
         session.commit()
         session.close()
         return result
+
+    def filter(self, condition: str) -> list[DataObject]:
+        session = DBSession()
+        items: Base = session.query(self.db_class).filter(condition).all()
+        session.close()
+        return [to_dict(item) for item in items]

@@ -1,15 +1,15 @@
 import datetime as dt
-from typing import Optional, Union
+from typing import Any, Optional
 
-from hotel.db.engine import DBSession
 from hotel.db.models import DBBooking
 from hotel.operations.interface import DataInterface
 from hotel.operations.models import (
     BookingCreateData,
     BookingResult,
     RoomAvailabilityResult,
-    RoomResult,
 )
+
+DataObject = dict[str, Any]
 
 
 def read_all_bookings(booking_interface: DataInterface) -> list[BookingResult]:
@@ -58,51 +58,35 @@ def delete_booking(booking_id: int, booking_interface: DataInterface) -> Booking
 
 
 def is_room_available(
-    room_id: int, from_date: dt.date, to_date: Optional[dt.date]
+    room_id: int,
+    from_date: dt.date,
+    to_date: Optional[dt.date],
+    booking_interface: DataInterface,
 ) -> RoomAvailabilityResult:
     if not to_date:
         to_date = dt.datetime.strptime(from_date, "%Y-%m-%d").date() + dt.timedelta(
             days=1
         )
 
-    is_available: bool = _is_room_available_during_timespan(room_id, from_date, to_date)
+    bookings_during_timespan = _retrieve_room_bookings_during_timespan(
+        room_id, from_date, to_date, booking_interface
+    )
 
     return RoomAvailabilityResult(
         room_id=room_id,
         from_date=from_date,
         to_date=to_date,
-        is_available=is_available,
+        is_available=not bookings_during_timespan,
     )
-
-
-def _is_room_available_during_timespan(
-    room_id: int, from_date: dt.date, to_date: Optional[dt.date]
-) -> bool:
-    bookings = _retrieve_room_bookings_during_timespan(room_id, from_date, to_date)
-    return not bookings
 
 
 def _retrieve_room_bookings_during_timespan(
-    room_id: int, from_date: dt.date, to_date: dt.date
-) -> list[DBBooking]:
-
-    session = DBSession()
-    bookings: list[DBBooking] = (
-        session.query(DBBooking)
-        .filter(DBBooking.room_id == room_id)
-        .filter((DBBooking.from_date < to_date) & (DBBooking.to_date > from_date))
-        .all()
+    room_id: int, from_date: dt.date, to_date: dt.date, booking_interface: DataInterface
+) -> list[DataObject]:
+    condition = (
+        (DBBooking.room_id == room_id)
+        & (DBBooking.from_date < to_date)
+        & (DBBooking.to_date > from_date)
     )
-    session.close()
-    return bookings
-
-
-def search_available_rooms(
-    from_date: dt.date, to_date: dt.date, room_interface: DataInterface
-) -> list[RoomResult]:
-    all_rooms: list[RoomResult] = room_interface.read_all()
-    return [
-        room
-        for room in all_rooms
-        if _is_room_available_during_timespan(room["id"], from_date, to_date)
-    ]
+    print(type(condition))
+    return booking_interface.filter(condition)

@@ -11,7 +11,6 @@ from hotel.operations.bookings import (
     is_room_available,
     read_all_bookings,
     read_booking,
-    search_available_rooms,
 )
 from hotel.operations.models import (
     BookingCreateData,
@@ -52,4 +51,5 @@ def api_delete_booking(booking_id: int) -> BookingResult:
 def api_is_room_available(
     room_id: int, from_date: dt.date, to_date: Optional[dt.date] = None
 ) -> RoomAvailabilityResult:
-    return is_room_available(room_id, from_date, to_date)
+    booking_interface = DBInterface(DBBooking)
+    return is_room_available(room_id, from_date, to_date, booking_interface)

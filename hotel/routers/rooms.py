@@ -3,7 +3,7 @@ import datetime as dt
 from fastapi import APIRouter
 
 from hotel.db.db_interface import DBInterface
-from hotel.db.models import DBRoom
+from hotel.db.models import DBBooking, DBRoom
 from hotel.operations.models import RoomResult
 from hotel.operations.rooms import read_all_rooms, read_room, search_available_rooms
 
@@ -27,4 +27,5 @@ def api_search_available_rooms(
     from_date: dt.date, to_date: dt.date
 ) -> list[RoomResult]:
     room_interface = DBInterface(DBRoom)
-    return search_available_rooms(from_date, to_date, room_interface)
+    booking_interface = DBInterface(DBBooking)
+    return search_available_rooms(from_date, to_date, room_interface, booking_interface)

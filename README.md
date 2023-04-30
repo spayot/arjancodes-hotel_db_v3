@@ -9,7 +9,9 @@ The case study by introducing a challenge to improve on the API as setup by Arja
 * create a new `/available_rooms/v1` endpoint to retrieve all rooms available during a given time period.
 
 ## TO-DO
-* create an endpoint to retrieve all available rooms for a given time span.
+* -create an endpoint to retrieve all available rooms for a given time span.-
+* -extend DataInterface to handle filters.- 
+** Note: current solution does encapsulate some of the implementation details, but does not achieve full decoupling as the `condition` is sqlalchemy specific (a `BooleanClauseList`). further decoupling could be achieved by limiting filtering to a combination of clauses and creating an interface to handle those conditions. (pros: more decoupled from sqlalchemy, cons: less flexible than current `BooleanClauseList`)
 
 ## Installing and running the hotel reservation API example
 

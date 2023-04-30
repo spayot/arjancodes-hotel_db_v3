@@ -18,3 +18,6 @@ class DataInterface(Protocol):
 
     def delete(self, id: int) -> DataObject:
         ...
+
+    def filter(self, filter: str) -> list[DataObject]:
+        ...
