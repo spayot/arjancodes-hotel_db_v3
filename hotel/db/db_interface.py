@@ -1,7 +1,8 @@
-from typing import Any
+from typing import Any, Callable
 
 from hotel.db.engine import DBSession
 from hotel.db.models import Base, to_dict
+from hotel.operations.interface import Comparable
 
 DataObject = dict[str, Any]
 
@@ -54,3 +55,11 @@ class DBInterface:
         items: Base = session.query(self.db_class).filter(condition).all()
         session.close()
         return [to_dict(item) for item in items]
+
+    def field_getter(self) -> Callable[[str], Comparable]:
+        """returns a function that maps field name to a comparable object."""
+
+        def col_fcn(field_name: str) -> Comparable:
+            return getattr(self.db_class, field_name)
+
+        return col_fcn

@@ -83,10 +83,10 @@ def is_room_available(
 def _retrieve_room_bookings_during_timespan(
     room_id: int, from_date: dt.date, to_date: dt.date, booking_interface: DataInterface
 ) -> list[DataObject]:
+    col = booking_interface.field_getter()
     condition = (
-        (DBBooking.room_id == room_id)
-        & (DBBooking.from_date < to_date)
-        & (DBBooking.to_date > from_date)
+        (col("room_id") == room_id)
+        & (col("from_date") < to_date)
+        & (col("to_date") > from_date)
     )
-    print(type(condition))
     return booking_interface.filter(condition)
