@@ -60,6 +60,8 @@ poetry run uvicorn main:app --reload
 ```
 
 ## Querying the API endpoints
+You can find more examples of API queries in [doc/sample_curl_commands.sh](doc/sample_curl_commands.sh)
+
 ### Recording Booking
 ```bash
 curl -X POST \
